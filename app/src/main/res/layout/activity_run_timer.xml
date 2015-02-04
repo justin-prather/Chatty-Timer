@@ -93,13 +93,13 @@
 
     </LinearLayout>
 
-    <!--<fragment-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:name="com.bradon.justinprather.chattytimerapp.RunTimerActivity$AdFragment"-->
-        <!--android:id="@+id/fragment2"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--tools:layout="@layout/fragment_ad"-->
-        <!--android:layout_alignParentBottom="true" />-->
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.bradon.justinprather.chattytimerapp.RunTimerActivity$AdFragment"
+        android:id="@+id/fragment2"
+        android:layout_gravity="center_horizontal"
+        tools:layout="@layout/fragment_ad"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

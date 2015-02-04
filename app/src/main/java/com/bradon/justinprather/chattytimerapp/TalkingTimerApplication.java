@@ -54,7 +54,7 @@ public class TalkingTimerApplication extends Application {
             }
         });
 
-        //Mint.initAndStartSession(getApplicationContext(), "6b2f0ef1");
+        Mint.initAndStartSession(getApplicationContext(), "6b2f0ef1");
 
     }
 

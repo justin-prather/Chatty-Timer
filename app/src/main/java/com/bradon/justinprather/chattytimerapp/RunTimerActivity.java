@@ -209,7 +209,7 @@ public class RunTimerActivity extends ActionBarActivity {
         public void onActivityCreated(Bundle bundle) {
             super.onActivityCreated(bundle);
             AdView mAdView = (AdView) getView().findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("2A03F21CFB927C7611295A40C8666F5F").build();
             mAdView.loadAd(adRequest);
         }
     }

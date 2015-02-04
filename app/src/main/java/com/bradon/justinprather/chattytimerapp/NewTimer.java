@@ -21,6 +21,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.splunk.mint.Mint;
 
 
 public class NewTimer extends ActionBarActivity implements AdapterView.OnItemClickListener {
@@ -64,6 +65,8 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
 
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
+
+//        Mint.initAndStartSession(getApplicationContext(), "6b2f0ef1");
     }
 
     public void onItemClick(AdapterView<?> adapterView, View view,
@@ -238,7 +241,7 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
         public void onActivityCreated(Bundle bundle) {
             super.onActivityCreated(bundle);
             AdView mAdView = (AdView) getView().findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("2A03F21CFB927C7611295A40C8666F5F").build();
             mAdView.loadAd(adRequest);
         }
     }
