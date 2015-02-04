@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Chatty Timer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_rate">Rate This App</string>
+    <string name="clearTimeListButtonText">Clear List</string>
+    <string name="startTimerButton">Start</string>
+    <string name="defaultTime">00</string>
+    <string name="defaultTimeHours">HH</string>
+    <string name="defaultTimeMinutes">MM</string>
+    <string name="defaultTimeSeconds">SS</string>
+    <string name="defaultTimeComment">Your note here</string>
+    <string name="title_activity_run_timer">RunTImerActivity</string>
+    <string name="title_activity_add_new_time">AddNewTimeActivity</string>
+    <string name="new_time_comment_placeholder">Enter your note here</string>
+    <string name="newTimerLabel">Set New Interval</string>
+    <string name="hours">Hours</string>
+    <string name="minutes">Minutes</string>
+    <string name="seconds">Seconds</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_save">Save</string>
+    <string name="toast_no_valid_time">Enter a valid time</string>
+    <string name="no_user_time_comment">Next Interval Beginning</string>
+    <string name="no_user_time_comment_internal">Next Interval Beginning</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_duplicate">Duplicate</string>
+    <string name="button_reset_text">Reset</string>
+    <string name="button_pause_text">Pause</string>
+    <string name="button_resume_text">Resume</string>
+    <string name="toast_no_intervals">No Intervals in List</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+
+</resources>

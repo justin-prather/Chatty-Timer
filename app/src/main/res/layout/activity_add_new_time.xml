@@ -1,0 +1,146 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.bradon.justinprather.chattytimerapp.AddNewTimeActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/newTimerLabel"
+            android:id="@+id/setTimeLabel"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="@dimen/bottom_padding"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/PickerContainer">
+            android:paddingBottom="@dimen/bottom_padding"
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/hourPickerContainer">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/hours"
+                    android:id="@+id/hourPickerLabel"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="@dimen/bottom_padding" />
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hourPicker" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/minutePickerContainer">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/minutes"
+                    android:id="@+id/minutePickerLabel"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="@dimen/bottom_padding"/>
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/minutePicker" >
+
+                </NumberPicker>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/secondPickerContainer">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/seconds"
+                    android:id="@+id/secondPickerLabel"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="@dimen/bottom_padding"/>
+
+                <NumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/secondPicker" >
+
+                </NumberPicker>
+            </LinearLayout>
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newTimeComment"
+            android:layout_gravity="center_horizontal"
+            android:editable="true"
+            android:hint="@string/new_time_comment_placeholder"
+            android:inputType="textAutoComplete|textAutoCorrect|text"
+            android:autoText="false" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/buttonContainer">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_cancel"
+                android:id="@+id/cancelButton"
+                android:layout_weight="0.5"
+                android:clickable="true"
+                android:onClick="cancelNewTime" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_save"
+                android:id="@+id/saveButton"
+                android:layout_weight="0.5"
+                android:clickable="true"
+                android:onClick="saveNewTime" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<fragment-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:name="com.bradon.justinprather.chattytimerapp.AddNewTimeActivity$AdFragment"-->
+        <!--android:id="@+id/fragment3"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--tools:layout="@layout/fragment_ad"-->
+        <!--android:layout_alignParentBottom="true" />-->
+</RelativeLayout>

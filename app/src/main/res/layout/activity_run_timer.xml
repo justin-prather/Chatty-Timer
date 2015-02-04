@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.bradon.justinprather.chattytimerapp.RunTimerActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_reset_text"
+                android:id="@+id/button_reset"
+                android:layout_weight="0.5"
+                android:onClick="onResetClick" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_pause_text"
+                android:id="@+id/button_pause"
+                android:layout_weight="0.5"
+                android:onClick="onPauseClick" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/time_container"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp">
+
+            <TextSwitcher
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/defaultTime"
+                android:id="@+id/run_timer_hours" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text=":"
+                android:id="@+id/runTimer_hours_mins"
+                android:textSize="50dp" />
+
+            <TextSwitcher
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/defaultTime"
+                android:id="@+id/run_timer_minutes" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text=":"
+                android:id="@+id/runTimer_mins_secs"
+                android:textSize="50dp" />
+
+            <TextSwitcher
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/defaultTime"
+                android:id="@+id/run_timer_seconds" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/runTimer_time_note"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/no_user_time_comment" />
+
+    </LinearLayout>
+
+    <!--<fragment-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:name="com.bradon.justinprather.chattytimerapp.RunTimerActivity$AdFragment"-->
+        <!--android:id="@+id/fragment2"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--tools:layout="@layout/fragment_ad"-->
+        <!--android:layout_alignParentBottom="true" />-->
+
+</RelativeLayout>
