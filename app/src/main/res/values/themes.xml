@@ -3,13 +3,8 @@
     <!-- the theme applied to the application or activity -->
     <style name="CustomAppTheme"
         parent="Theme.AppCompat.Light">
+        <!--Use this tag when appCompat v21.0.3 bug fixed-->
         <item name="colorPrimary">@color/accentColor</item>
-        <!--<item name="android:actionBarStyle">@style/MyActionBar</item>-->
     </style>
 
-    <!--&lt;!&ndash; ActionBar styles &ndash;&gt;-->
-    <!--<style name="MyActionBar"-->
-        <!--parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
-        <!--<item name="android:background">@color/accentColor</item>-->
-    <!--</style>-->
 </resources>

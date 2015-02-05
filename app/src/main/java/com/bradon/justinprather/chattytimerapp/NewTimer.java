@@ -66,7 +66,6 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
         // Send a screen view.
         t.send(new HitBuilders.AppViewBuilder().build());
 
-//        Mint.initAndStartSession(getApplicationContext(), "6b2f0ef1");
     }
 
     public void onItemClick(AdapterView<?> adapterView, View view,
