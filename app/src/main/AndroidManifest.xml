@@ -42,7 +42,7 @@
             android:name="com.bradon.justinprather.chattytimerapp.AddNewTimeActivity"
             android:label="@string/app_name"
             android:parentActivityName="com.bradon.justinprather.chattytimerapp.NewTimer"
-            android:windowSoftInputMode="adjustResize|adjustPan">
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.bradon.justinprather.chattytimerapp.NewTimer" />
