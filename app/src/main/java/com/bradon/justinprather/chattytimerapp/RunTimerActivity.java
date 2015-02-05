@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 import android.widget.Button;
 
@@ -193,9 +194,15 @@ public class RunTimerActivity extends ActionBarActivity {
 
     public void onResetClick( View view ){
         mApp.stopTimer();
-        mApp.resetRunTimer();
-        mApp.setPause();
-        pauseButton.setText(R.string.button_resume_text);
+        if( mApp.resetRunTimer() ) {
+            mApp.setPause();
+            pauseButton.setText(R.string.button_resume_text);
+        }
+
+        else{
+            Toast noIntervals = Toast.makeText( getApplicationContext(), getString( R.string.toast_no_intervals), Toast.LENGTH_LONG);
+            noIntervals.show();
+        }
     }
 
     public static class AdFragment extends Fragment {

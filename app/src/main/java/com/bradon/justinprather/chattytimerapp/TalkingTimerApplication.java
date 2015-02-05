@@ -196,9 +196,13 @@ public class TalkingTimerApplication extends Application {
         timer = null;
     }
 
-    public void resetRunTimer(){
-        runningTimeList = deepCopy(timeList);
-        updateRunTimerActivity(runningTimeList.getFirst().getTimeMillis());
+    public boolean resetRunTimer(){
+        if(!timeList.isEmpty()) {
+            runningTimeList = deepCopy(timeList);
+            updateRunTimerActivity(runningTimeList.getFirst().getTimeMillis());
+            return true;
+        }
+        return false;
     }
 
     public boolean isRunning(){
