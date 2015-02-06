@@ -30,6 +30,10 @@ public class TalkingTimerApplication extends Application {
     private TimeObject interval;
     private boolean isPaused = false;
     private static final String PROPERTY_ID = "UA-58922860-2";
+    private ObservableTextObject mObservable;
+    private int lastHour = 0;
+    private int lastMinute = 0;
+    private int lastSecond = 0;
 
     public enum TrackerName {
         APP_TRACKER, // Tracker used only in this app.
@@ -55,7 +59,7 @@ public class TalkingTimerApplication extends Application {
         });
 
         Mint.initAndStartSession(getApplicationContext(), "6b2f0ef1");
-
+        mObservable = new ObservableTextObject();
     }
 
     synchronized Tracker getTracker(TrackerName trackerId) {
@@ -75,6 +79,11 @@ public class TalkingTimerApplication extends Application {
         runningTimeList = deepCopy( timeList );
 
         runningTimeList.addLast( new TimeObject( "All Timers Finished", 0 ) );
+
+        lastHour = 0;
+        lastMinute = 0;
+        lastSecond = 0;
+
         startNext();
     }
 
@@ -90,14 +99,19 @@ public class TalkingTimerApplication extends Application {
 
     public void startNext() {
         interval = runningTimeList.getFirst();
-        RunTimerComment.setText( interval.getTimeComment() );
+//        RunTimerComment.setText( interval.getTimeComment() );
+        mObservable.setComment(interval.getTimeComment());
 
+        mObservable.setHours((int) ((interval.getTimeMillis() / (1000*60*60)) % 24));
+        mObservable.setMinutes((int) ((interval.getTimeMillis() / (1000*60)) % 60));
+        mObservable.setSeconds((int) (interval.getTimeMillis() / 1000) % 60);
         timerTTS.speak(interval.getTimeComment(), TextToSpeech.QUEUE_FLUSH, null);
 
         timer = new CountDownTimer( interval.getTimeMillis(), 100 ) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if( RunTimerHours != null && RunTimerMinutes != null && RunTimerSeconds != null ){
+//                if( RunTimerHours != null && RunTimerMinutes != null && RunTimerSeconds != null ){
+                if( mObservable.countObservers() > 0 ){
                     interval.setTimeMillis( (int) millisUntilFinished );
 //                    Log.d("Timer Tag", "current millis: " + millisUntilFinished );
                     updateRunTimerActivity();
@@ -107,7 +121,8 @@ public class TalkingTimerApplication extends Application {
             @Override
             public void onFinish() {
                 interval.setTimeMillis( 0 );
-                if( RunTimerHours != null && RunTimerMinutes != null && RunTimerSeconds != null ){
+//                if( RunTimerHours != null && RunTimerMinutes != null && RunTimerSeconds != null ){
+                if( mObservable.countObservers() > 0 ){
                     updateRunTimerActivity();
                 }
 
@@ -129,13 +144,28 @@ public class TalkingTimerApplication extends Application {
 
     private void updateRunTimerActivity() {
         long milliseconds = interval.getTimeMillis();
-        int seconds = (int) (milliseconds / 1000) % 60 ;
+        int seconds = (int) (milliseconds / 1000) % 60;
         int minutes = (int) ((milliseconds / (1000*60)) % 60);
         int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
 
-        RunTimerHours.setText( String.format("%02d", hours));
-        RunTimerMinutes.setText( String.format("%02d", minutes));
-        RunTimerSeconds.setText( String.format("%02d", seconds));
+        if( lastSecond != seconds ) {
+            mObservable.setSeconds(seconds);
+            lastSecond = seconds;
+
+            if( lastMinute != minutes ){
+                mObservable.setMinutes(minutes);
+                lastMinute = minutes;
+
+                if( lastHour != hours ){
+                    mObservable.setHours(hours);
+                    lastHour = hours;
+                }
+            }
+        }
+
+//        RunTimerHours.setText( String.format("%02d", hours));
+//        RunTimerMinutes.setText( String.format("%02d", minutes));
+//        RunTimerSeconds.setText( String.format("%02d", seconds));
     }
 
     private void updateRunTimerActivity( long milliseconds ) {
@@ -143,9 +173,23 @@ public class TalkingTimerApplication extends Application {
         int minutes = (int) ((milliseconds / (1000*60)) % 60);
         int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
 
-        RunTimerHours.setText( String.format("%02d", hours));
-        RunTimerMinutes.setText( String.format("%02d", minutes));
-        RunTimerSeconds.setText( String.format("%02d", seconds));
+        if( lastSecond != seconds ) {
+            mObservable.setSeconds(seconds);
+            lastSecond = seconds;
+
+            if( lastMinute != minutes ){
+                mObservable.setMinutes(minutes);
+                lastMinute = minutes;
+
+                if( lastHour != hours ){
+                    mObservable.setHours(hours);
+                    lastHour = hours;
+                }
+            }
+        }
+//        RunTimerHours.setText( String.format("%02d", hours));
+//        RunTimerMinutes.setText( String.format("%02d", minutes));
+//        RunTimerSeconds.setText( String.format("%02d", seconds));
     }
 
     public TextSwitcher getRunTimerHours() {
@@ -213,6 +257,10 @@ public class TalkingTimerApplication extends Application {
         if ( runningTimeList == null ) return false;
 
         return true;
+    }
+
+    public ObservableTextObject getObservable() {
+        return mObservable;
     }
 
     @Override

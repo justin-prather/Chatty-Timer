@@ -103,10 +103,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/newTimeComment"
             android:layout_gravity="center_horizontal"
-            android:editable="true"
             android:hint="@string/new_time_comment_placeholder"
             android:inputType="textAutoComplete|textAutoCorrect|text"
-            android:autoText="false" />
+            android:imeOptions="actionDone" />
 
         <LinearLayout
             android:orientation="horizontal"

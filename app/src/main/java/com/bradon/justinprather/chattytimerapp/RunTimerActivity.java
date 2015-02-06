@@ -26,14 +26,18 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.util.Observable;
+import java.util.Observer;
 
-public class RunTimerActivity extends ActionBarActivity {
+
+public class RunTimerActivity extends ActionBarActivity implements Observer{
 
     private TalkingTimerApplication mApp;
     private Button pauseButton;
     private TextSwitcher hours;
     private TextSwitcher minutes;
     private TextSwitcher seconds;
+    private TextView comment;
 
 
     @Override
@@ -48,6 +52,7 @@ public class RunTimerActivity extends ActionBarActivity {
         hours = (TextSwitcher) findViewById(R.id.run_timer_hours);
         minutes = (TextSwitcher) findViewById(R.id.run_timer_minutes);
         seconds = (TextSwitcher) findViewById(R.id.run_timer_seconds);
+        comment = (TextView) findViewById(R.id.runTimer_time_note);
 
         hours.setFactory(new ViewSwitcher.ViewFactory() {
 
@@ -102,10 +107,11 @@ public class RunTimerActivity extends ActionBarActivity {
         seconds.setInAnimation(in);
         seconds.setOutAnimation(out);
 
-        mApp.setRunTimerHours( hours );
-        mApp.setRunTimerMinutes( minutes );
-        mApp.setRunTimerSeconds( seconds );
-        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
+//        mApp.setRunTimerHours( hours );
+//        mApp.setRunTimerMinutes( minutes );
+//        mApp.setRunTimerSeconds( seconds );
+//        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
+        mApp.getObservable().addObserver(this);
 
         if( !mApp.isRunning() ) {
             mApp.startTimer();
@@ -130,19 +136,22 @@ public class RunTimerActivity extends ActionBarActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        mApp.setRunTimerHours( hours );
-        mApp.setRunTimerMinutes( minutes );
-        mApp.setRunTimerSeconds( seconds );
-        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
+//        mApp.setRunTimerHours( hours );
+//        mApp.setRunTimerMinutes( minutes );
+//        mApp.setRunTimerSeconds( seconds );
+//        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
+
+        mApp.getObservable().addObserver(this);
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        mApp.setRunTimerHours( null );
-        mApp.setRunTimerMinutes( null );
-        mApp.setRunTimerSeconds( null );
-        mApp.setRunTimerComment( null );
+//        mApp.setRunTimerHours( null );
+//        mApp.setRunTimerMinutes( null );
+//        mApp.setRunTimerSeconds( null );
+//        mApp.setRunTimerComment( null );
+        mApp.getObservable().deleteObserver(this);
     }
 
     @Override
@@ -215,6 +224,27 @@ public class RunTimerActivity extends ActionBarActivity {
         else{
             Toast noIntervals = Toast.makeText( getApplicationContext(), getString( R.string.toast_no_intervals), Toast.LENGTH_LONG);
             noIntervals.show();
+        }
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        ObservableTextObject mObservable = mApp.getObservable();
+
+        if( data.equals("second") ){
+            seconds.setText( String.format("%02d",mObservable.getSeconds()) );
+        }
+
+        else if( data.equals( "minute" ) ){
+            minutes.setText( String.format("%02d",mObservable.getMinutes()) );
+        }
+
+        else if( data.equals( "hour" ) ){
+            hours.setText( String.format("%02d",mObservable.getHours()) );
+        }
+
+        else if( data.equals("comment")){
+            comment.setText(mObservable.getComment());
         }
     }
 
