@@ -141,7 +141,10 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
 //        mApp.setRunTimerSeconds( seconds );
 //        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
 
-        mApp.getObservable().addObserver(this);
+        ObservableTextObject mObs = mApp.getObservable();
+        mObs.addObserver(this);
+
+        updateTime(mObs);
     }
 
     @Override
@@ -231,21 +234,19 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
     public void update(Observable observable, Object data) {
         ObservableTextObject mObservable = mApp.getObservable();
 
-        if( data.equals("second") ){
-            seconds.setText( String.format("%02d",mObservable.getSeconds()) );
-        }
-
-        else if( data.equals( "minute" ) ){
-            minutes.setText( String.format("%02d",mObservable.getMinutes()) );
-        }
-
-        else if( data.equals( "hour" ) ){
-            hours.setText( String.format("%02d",mObservable.getHours()) );
+        if( data.equals("time") ){
+            updateTime( mObservable );
         }
 
         else if( data.equals("comment")){
             comment.setText(mObservable.getComment());
         }
+    }
+
+    private void updateTime(ObservableTextObject mObs) {
+        seconds.setText( String.format("%02d",mObs.getSeconds()) );
+        minutes.setText( String.format("%02d",mObs.getMinutes()) );
+        hours.setText( String.format("%02d",mObs.getHours()) );
     }
 
     public static class AdFragment extends Fragment {
