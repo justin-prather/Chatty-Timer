@@ -29,8 +29,12 @@ import com.google.android.gms.analytics.Tracker;
 
 public class RunTimerActivity extends ActionBarActivity {
 
-    TalkingTimerApplication mApp;
-    Button pauseButton;
+    private TalkingTimerApplication mApp;
+    private Button pauseButton;
+    private TextSwitcher hours;
+    private TextSwitcher minutes;
+    private TextSwitcher seconds;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +45,9 @@ public class RunTimerActivity extends ActionBarActivity {
 
         pauseButton = (Button) findViewById(R.id.button_pause);
 
-        TextSwitcher hours = (TextSwitcher) findViewById(R.id.run_timer_hours);
-        TextSwitcher minutes = (TextSwitcher) findViewById(R.id.run_timer_minutes);
-        TextSwitcher seconds = (TextSwitcher) findViewById(R.id.run_timer_seconds);
+        hours = (TextSwitcher) findViewById(R.id.run_timer_hours);
+        minutes = (TextSwitcher) findViewById(R.id.run_timer_minutes);
+        seconds = (TextSwitcher) findViewById(R.id.run_timer_seconds);
 
         hours.setFactory(new ViewSwitcher.ViewFactory() {
 
@@ -102,6 +106,7 @@ public class RunTimerActivity extends ActionBarActivity {
         mApp.setRunTimerMinutes( minutes );
         mApp.setRunTimerSeconds( seconds );
         mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
+
         if( !mApp.isRunning() ) {
             mApp.startTimer();
             mApp.clearPause();
@@ -125,11 +130,19 @@ public class RunTimerActivity extends ActionBarActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        mApp.setRunTimerHours( hours );
+        mApp.setRunTimerMinutes( minutes );
+        mApp.setRunTimerSeconds( seconds );
+        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
     }
 
     @Override
     protected void onPause(){
         super.onPause();
+        mApp.setRunTimerHours( null );
+        mApp.setRunTimerMinutes( null );
+        mApp.setRunTimerSeconds( null );
+        mApp.setRunTimerComment( null );
     }
 
     @Override

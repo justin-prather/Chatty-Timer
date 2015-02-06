@@ -74,7 +74,6 @@ public class TalkingTimerApplication extends Application {
 
         runningTimeList = deepCopy( timeList );
 
-       // runningTimeList.addFirst( new TimeObject( "", 3000 ) );
         runningTimeList.addLast( new TimeObject( "All Timers Finished", 0 ) );
         startNext();
     }
