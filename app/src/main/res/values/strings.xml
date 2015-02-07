@@ -35,6 +35,7 @@
     <string name="notification_is_starting">" is starting!"</string>
     <string name="button_restart">Restart</string>
     <string name="button_view">View ></string>
+    <string name="last_timer_note">All Timers Finished</string>
 
 
 </resources>

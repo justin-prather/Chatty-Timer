@@ -87,7 +87,7 @@ public class TalkingTimerApplication extends Application {
 
         runningTimeList = deepCopy( timeList );
 
-        runningTimeList.addLast( new TimeObject( "All Timers Finished", 0 ) );
+        runningTimeList.addLast( new TimeObject( getString(R.string.last_timer_note), 0 ) );
 
         mBuilder = new NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(R.drawable.ic_stat_chattytimernotificationicon);
@@ -264,6 +264,9 @@ public class TalkingTimerApplication extends Application {
             updateRunTimerActivity(runningTimeList.getFirst().getTimeMillis());
             return true;
         }
+        updateRunTimerActivity(0);
+        runningTimeList = null;
+        mObservable.setComment(getString(R.string.last_timer_note));
         return false;
     }
 

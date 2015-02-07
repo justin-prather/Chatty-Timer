@@ -132,6 +132,7 @@ public class NewTimer extends ActionBarActivity implements Observer {
                 public void onClick(View v) {
                     mApp.stopTimer();
                     mApp.resetRunTimer();
+                    getSupportActionBar().setTitle(R.string.app_name);
                     launch_run_timer_activity(v);
                 }
             });
@@ -154,6 +155,7 @@ public class NewTimer extends ActionBarActivity implements Observer {
                 public void onClick(View v) {
                     mApp.stopTimer();
                     mApp.resetRunTimer();
+                    getSupportActionBar().setTitle(R.string.app_name);
                     launch_run_timer_activity(v);
                 }
             });
@@ -225,7 +227,12 @@ public class NewTimer extends ActionBarActivity implements Observer {
     }
 
     public void launch_run_timer_activity( View view ){
-        if( !mTimeAdapter.isEmpty() ) {
+        if( !mTimeAdapter.isEmpty() || mApp.isRunning() ) {
+            Intent intent = new Intent(this, RunTimerActivity.class);
+            startActivity(intent);
+        }
+
+        else if( mApp.isPaused() && mApp.hasCurrent() ) {
             Intent intent = new Intent(this, RunTimerActivity.class);
             startActivity(intent);
         }

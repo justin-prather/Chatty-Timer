@@ -219,6 +219,8 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
         }
 
         else{
+            mApp.stopTimer();
+            mApp.resetRunTimer();
             Toast noIntervals = Toast.makeText( getApplicationContext(), getString( R.string.toast_no_intervals), Toast.LENGTH_LONG);
             noIntervals.show();
         }
