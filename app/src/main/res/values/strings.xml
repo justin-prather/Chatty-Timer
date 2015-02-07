@@ -33,6 +33,8 @@
     <string name="notification_all_finished">All intervals finished!</string>
     <string name="notification_just_finished">" just finished!"</string>
     <string name="notification_is_starting">" is starting!"</string>
+    <string name="button_restart">Restart</string>
+    <string name="button_resume">Resume</string>
 
 
 </resources>

@@ -241,6 +241,8 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
         else if( data.equals("comment")){
             comment.setText(mObservable.getComment());
         }
+
+        else return;
     }
 
     private void updateTime(ObservableTextObject mObs) {

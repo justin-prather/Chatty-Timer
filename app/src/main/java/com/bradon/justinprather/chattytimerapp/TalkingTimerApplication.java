@@ -115,6 +115,8 @@ public class TalkingTimerApplication extends Application {
         lastMinute = 0;
         lastSecond = 0;
 
+        mObservable.setDone(false);
+
         startNext();
     }
 
@@ -187,6 +189,7 @@ public class TalkingTimerApplication extends Application {
                     runningTimeList = null;
                     timer = null;
                     isPaused = true;
+                    mObservable.setDone(true);
                 }
             }
         };

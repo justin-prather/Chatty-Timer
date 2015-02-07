@@ -11,6 +11,18 @@ public class ObservableTextObject extends Observable {
     private int seconds;
     private String comment;
 
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean isDone) {
+        this.isDone = isDone;
+        setChanged();
+        notifyObservers( "isDone" );
+    }
+
+    private boolean isDone;
+
     public int getHours() {
         return hours;
     }

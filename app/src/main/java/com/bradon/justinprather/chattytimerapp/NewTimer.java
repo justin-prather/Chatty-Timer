@@ -21,14 +21,18 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.splunk.mint.Mint;
+import android.widget.Button;
+
+import java.util.Observable;
+import java.util.Observer;
 
 
-public class NewTimer extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class NewTimer extends ActionBarActivity implements Observer {
 
     private TalkingTimerApplication mApp;
     private TimeObectAdapter mTimeAdapter;
-    private ActionMode mActionMode;
+    private android.support.v7.view.ActionMode mActionMode;
+    private boolean isRunningState = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,22 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
         ((ViewGroup)TimeListView.getParent()).addView(emptyView);
         TimeListView.setEmptyView(emptyView);
         TimeListView.setAdapter(mTimeAdapter);
-        TimeListView.setOnItemClickListener( this );
+        TimeListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mActionMode == null) {
+                    // edit selected interval
+                    Intent intent = new Intent( getApplicationContext(), AddNewTimeActivity.class );
+                    TimeObject interval = (TimeObject) mTimeAdapter.getItem(position);
+                    intent.putExtra("Extra_Time", interval.getTimeMillis() );
+                    intent.putExtra("Extra_comment", interval.getTimeComment());
+                    intent.putExtra("EXTRA_Position", position);
+                    startActivity(intent);
+                } else
+                    // add or remove selection for current list item
+                    onListItemSelect(position);
+            }
+        });
         TimeListView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -68,28 +87,13 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
 
     }
 
-    public void onItemClick(AdapterView<?> adapterView, View view,
-                            int position, long id) {
-        if (mActionMode == null) {
-            // edit selected interval
-            Intent intent = new Intent( this, AddNewTimeActivity.class );
-            TimeObject interval = (TimeObject) mTimeAdapter.getItem(position);
-            intent.putExtra("Extra_Time", interval.getTimeMillis() );
-            intent.putExtra("Extra_comment", interval.getTimeComment());
-            intent.putExtra("EXTRA_Position", position);
-            startActivity(intent);
-        } else
-            // add or remove selection for current list item
-            onListItemSelect(position);
-    }
-
     private void onListItemSelect(int position) {
         mTimeAdapter.toggleSelection(position);
         boolean hasCheckedItems = mTimeAdapter.getSelectedCount() > 0;
 
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode
-            mActionMode = startActionMode(new ActionModeCallback());
+            mActionMode = startSupportActionMode(new ActionModeCallback());
         else if (!hasCheckedItems && mActionMode != null)
             // there no selected items, finish the actionMode
             mActionMode.finish();
@@ -102,12 +106,62 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
     @Override
     protected void onPause(){
         super.onPause();
+        mApp.getObservable().deleteObserver(this);
     }
 
     @Override
     protected void onResume(){
         super.onResume();
         mTimeAdapter.notifyDataSetChanged();
+        mApp.getObservable().addObserver(this);
+
+        isRunningState = mApp.isRunning();
+
+        initButtons();
+    }
+
+    private void initButtons() {
+        Button left = (Button) findViewById(R.id.clearTimeListButton);
+        Button right = (Button) findViewById(R.id.startTimerButton);
+
+        if( isRunningState ){
+            left.setText(getString(R.string.button_restart));
+            right.setText(getString(R.string.button_resume));
+
+            left.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mApp.stopTimer();
+                    launch_run_timer_activity(v);
+                }
+            });
+
+            right.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launch_run_timer_activity(v);
+                }
+            });
+        }
+
+        else{
+            left.setText(getString(R.string.clearTimeListButtonText));
+            right.setText(getString(R.string.startTimerButton));
+
+            left.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clear_time_list(v);
+                }
+            });
+
+            right.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launch_run_timer_activity(v);
+                }
+            });
+        }
     }
 
     @Override
@@ -171,22 +225,28 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
         mTimeAdapter.notifyDataSetChanged();
     }
 
-    private class ActionModeCallback implements ActionMode.Callback {
+    @Override
+    public void update(Observable observable, Object data) {
+        isRunningState = !mApp.getObservable().isDone();
+        initButtons();
+    }
+
+    private class ActionModeCallback implements android.support.v7.view.ActionMode.Callback {
 
         @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        public boolean onCreateActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
             // inflate contextual menu
             mode.getMenuInflater().inflate(R.menu.contextual_new_timer, menu);
             return true;
         }
 
         @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        public boolean onPrepareActionMode(android.support.v7.view.ActionMode mode, Menu menu) {
             return false;
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        public boolean onActionItemClicked(android.support.v7.view.ActionMode mode, MenuItem item) {
 
             switch (item.getItemId()) {
                 case R.id.menu_delete:
@@ -222,7 +282,7 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
         }
 
         @Override
-        public void onDestroyActionMode(ActionMode mode) {
+        public void onDestroyActionMode(android.support.v7.view.ActionMode mode) {
             // remove selection
             mTimeAdapter.removeSelection();
             mActionMode = null;
