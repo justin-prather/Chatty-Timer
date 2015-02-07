@@ -243,6 +243,7 @@ public class NewTimer extends ActionBarActivity implements Observer {
 
     public void clear_time_list( View view ){
         mApp.timeList.clear();
+        getSupportActionBar().setTitle(R.string.app_name);
         mTimeAdapter.notifyDataSetChanged();
     }
 
