@@ -98,8 +98,8 @@ public class TalkingTimerApplication extends Application {
          /* Creates an explicit intent for an Activity in your app */
         Intent resultIntent = new Intent(this, RunTimerActivity.class);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(NewTimer.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+        stackBuilder.addParentStack(RunTimerActivity.class);
 
       /* Adds the Intent that starts the Activity to the top of the stack */
         stackBuilder.addNextIntent(resultIntent);
@@ -162,15 +162,18 @@ public class TalkingTimerApplication extends Application {
 
                 runningTimeList.pollFirst();
 
-                mBuilder.setContentTitle( mObservable.getComment()
-                        + getString(R.string.notification_just_finished));
-                mBuilder.setWhen( System.currentTimeMillis() );
                 if( runningTimeList.size() > 1 ){
+                    mBuilder.setContentTitle( mObservable.getComment()
+                            + getString(R.string.notification_just_finished));
+                    mBuilder.setWhen( System.currentTimeMillis() );
                     mBuilder.setContentText( runningTimeList.getFirst().getTimeComment() +
                             getString(R.string.notification_is_starting) );
                     mBuilder.setTicker( mObservable.getComment() +  getString(R.string.notification_just_finished));
                 }
                 else{
+                    mBuilder.setContentTitle( timeList.getLast().getTimeComment()
+                            + getString(R.string.notification_just_finished));
+                    mBuilder.setWhen( System.currentTimeMillis() );
                     mBuilder.setContentText(getString(R.string.notification_all_finished));
                     mBuilder.setTicker(getString(R.string.notification_all_finished));
                 }

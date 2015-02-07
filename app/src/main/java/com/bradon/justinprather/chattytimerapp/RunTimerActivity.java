@@ -242,6 +242,11 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
             comment.setText(mObservable.getComment());
         }
 
+        else if( data.equals("isDone") ){
+            if( mObservable.isDone() )
+                pauseButton.setText(getString(R.string.button_restart));
+        }
+
         else return;
     }
 

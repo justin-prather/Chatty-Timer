@@ -117,6 +117,10 @@ public class NewTimer extends ActionBarActivity implements Observer {
 
         isRunningState = mApp.isRunning();
 
+        if( mApp.isPaused() && mApp.hasCurrent() ){
+            setActionBarTime();
+        }
+
         initButtons();
     }
 
@@ -227,8 +231,23 @@ public class NewTimer extends ActionBarActivity implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
-        isRunningState = !mApp.getObservable().isDone();
-        initButtons();
+
+        if( data.equals("time") ){
+            setActionBarTime();
+        }
+        else if( data.equals("isDone")) {
+            isRunningState = !mApp.getObservable().isDone();
+            getSupportActionBar().setTitle( R.string.app_name );
+            initButtons();
+        }
+    }
+
+    private void setActionBarTime() {
+        ObservableTextObject mObs = mApp.getObservable();
+        String timeText = String.format( "%02d", mObs.getHours()) + ":" +
+                String.format( "%02d", mObs.getMinutes()) + ":" +
+                    String.format("%02d", mObs.getSeconds()) + " " + mObs.getComment();
+        getSupportActionBar().setTitle( timeText );
     }
 
     private class ActionModeCallback implements android.support.v7.view.ActionMode.Callback {
