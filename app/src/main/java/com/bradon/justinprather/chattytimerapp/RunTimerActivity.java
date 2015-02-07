@@ -107,15 +107,17 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
         seconds.setInAnimation(in);
         seconds.setOutAnimation(out);
 
-//        mApp.setRunTimerHours( hours );
-//        mApp.setRunTimerMinutes( minutes );
-//        mApp.setRunTimerSeconds( seconds );
-//        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
         mApp.getObservable().addObserver(this);
 
         if( !mApp.isRunning() ) {
-            mApp.startTimer();
-            mApp.clearPause();
+            if( mApp.hasCurrent() ){
+                mApp.startNext();
+                mApp.clearPause();
+            }
+            else {
+                mApp.startTimer();
+                mApp.clearPause();
+            }
         }
 
         // Get tracker.
@@ -136,10 +138,6 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
     @Override
     protected void onResume(){
         super.onResume();
-//        mApp.setRunTimerHours( hours );
-//        mApp.setRunTimerMinutes( minutes );
-//        mApp.setRunTimerSeconds( seconds );
-//        mApp.setRunTimerComment( (TextView) findViewById(R.id.runTimer_time_note));
 
         ObservableTextObject mObs = mApp.getObservable();
         mObs.addObserver(this);
@@ -150,10 +148,6 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
     @Override
     protected void onPause(){
         super.onPause();
-//        mApp.setRunTimerHours( null );
-//        mApp.setRunTimerMinutes( null );
-//        mApp.setRunTimerSeconds( null );
-//        mApp.setRunTimerComment( null );
         mApp.getObservable().deleteObserver(this);
     }
 

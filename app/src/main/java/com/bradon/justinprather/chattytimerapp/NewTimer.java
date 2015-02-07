@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -117,10 +116,6 @@ public class NewTimer extends ActionBarActivity implements Observer {
 
         isRunningState = mApp.isRunning();
 
-        if( mApp.isPaused() && mApp.hasCurrent() ){
-            setActionBarTime();
-        }
-
         initButtons();
     }
 
@@ -130,12 +125,13 @@ public class NewTimer extends ActionBarActivity implements Observer {
 
         if( isRunningState ){
             left.setText(getString(R.string.button_restart));
-            right.setText(getString(R.string.button_resume));
+            right.setText(getString(R.string.button_view));
 
             left.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mApp.stopTimer();
+                    mApp.resetRunTimer();
                     launch_run_timer_activity(v);
                 }
             });
@@ -148,6 +144,27 @@ public class NewTimer extends ActionBarActivity implements Observer {
             });
         }
 
+        else if( mApp.isPaused() && mApp.hasCurrent() ){
+            setActionBarTime();
+            left.setText(getString(R.string.button_restart));
+            right.setText(getString(R.string.button_resume_text));
+
+            left.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mApp.stopTimer();
+                    mApp.resetRunTimer();
+                    launch_run_timer_activity(v);
+                }
+            });
+
+            right.setOnClickListener( new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launch_run_timer_activity(v);
+                }
+            });
+        }
         else{
             left.setText(getString(R.string.clearTimeListButtonText));
             right.setText(getString(R.string.startTimerButton));
