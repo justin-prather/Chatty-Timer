@@ -99,7 +99,7 @@ public class TalkingTimerApplication extends Application {
         Intent resultIntent = new Intent(this, RunTimerActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(RunTimerActivity.class);
+        stackBuilder.addParentStack(NewTimer.class);
 
       /* Adds the Intent that starts the Activity to the top of the stack */
         stackBuilder.addNextIntent(resultIntent);
@@ -144,7 +144,6 @@ public class TalkingTimerApplication extends Application {
         timer = new CountDownTimer( interval.getTimeMillis(), 100 ) {
             @Override
             public void onTick(long millisUntilFinished) {
-//                if( RunTimerHours != null && RunTimerMinutes != null && RunTimerSeconds != null ){
                 if( mObservable.countObservers() > 0 ){
                     interval.setTimeMillis( (int) millisUntilFinished );
 //                    Log.d("Timer Tag", "current millis: " + millisUntilFinished );
@@ -155,7 +154,6 @@ public class TalkingTimerApplication extends Application {
             @Override
             public void onFinish() {
                 interval.setTimeMillis( 0 );
-//                if( RunTimerHours != null && RunTimerMinutes != null && RunTimerSeconds != null ){
                 if( mObservable.countObservers() > 0 ){
                     updateRunTimerActivity();
                 }
@@ -216,10 +214,6 @@ public class TalkingTimerApplication extends Application {
                 }
             }
         }
-
-//        RunTimerHours.setText( String.format("%02d", hours));
-//        RunTimerMinutes.setText( String.format("%02d", minutes));
-//        RunTimerSeconds.setText( String.format("%02d", seconds));
     }
 
     private void updateRunTimerActivity( long milliseconds ) {
@@ -241,41 +235,6 @@ public class TalkingTimerApplication extends Application {
                 }
             }
         }
-//        RunTimerHours.setText( String.format("%02d", hours));
-//        RunTimerMinutes.setText( String.format("%02d", minutes));
-//        RunTimerSeconds.setText( String.format("%02d", seconds));
-    }
-
-    public TextSwitcher getRunTimerHours() {
-        return RunTimerHours;
-    }
-
-    public void setRunTimerHours(TextSwitcher runTimerHours) {
-        RunTimerHours = runTimerHours;
-    }
-
-    public TextSwitcher getRunTimerMinutes() {
-        return RunTimerMinutes;
-    }
-
-    public void setRunTimerMinutes(TextSwitcher runTimerMinutes) {
-        RunTimerMinutes = runTimerMinutes;
-    }
-
-    public TextSwitcher getRunTimerSeconds() {
-        return RunTimerSeconds;
-    }
-
-    public void setRunTimerSeconds(TextSwitcher runTimerSeconds) {
-        RunTimerSeconds = runTimerSeconds;
-    }
-
-    public TextView getRunTimerComment() {
-        return RunTimerComment;
-    }
-
-    public void setRunTimerComment(TextView runTimerComment) {
-        RunTimerComment = runTimerComment;
     }
 
     public boolean isPaused(){ return this.isPaused; }
