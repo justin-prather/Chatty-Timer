@@ -1,8 +1,14 @@
 package com.bradon.justinprather.chattytimerapp;
 
 import android.app.Application;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -34,6 +40,9 @@ public class TalkingTimerApplication extends Application {
     private int lastHour = 0;
     private int lastMinute = 0;
     private int lastSecond = 0;
+    private NotificationManager mNotificationManager;
+    private int notificationID = 74;
+    private NotificationCompat.Builder  mBuilder;
 
     public enum TrackerName {
         APP_TRACKER, // Tracker used only in this app.
@@ -80,6 +89,28 @@ public class TalkingTimerApplication extends Application {
 
         runningTimeList.addLast( new TimeObject( "All Timers Finished", 0 ) );
 
+        mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.setSmallIcon(R.drawable.ic_stat_chattytimernotificationicon);
+        mBuilder.setAutoCancel(true);
+        long[] vibePattern = {0, 750};
+        mBuilder.setVibrate( vibePattern );
+
+         /* Creates an explicit intent for an Activity in your app */
+        Intent resultIntent = new Intent(this, RunTimerActivity.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(RunTimerActivity.class);
+
+      /* Adds the Intent that starts the Activity to the top of the stack */
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
         lastHour = 0;
         lastMinute = 0;
         lastSecond = 0;
@@ -99,12 +130,15 @@ public class TalkingTimerApplication extends Application {
 
     public void startNext() {
         interval = runningTimeList.getFirst();
-//        RunTimerComment.setText( interval.getTimeComment() );
         mObservable.setComment(interval.getTimeComment());
 
-        mObservable.setHours((int) ((interval.getTimeMillis() / (1000*60*60)) % 24));
-        mObservable.setMinutes((int) ((interval.getTimeMillis() / (1000*60)) % 60));
-        mObservable.setSeconds((int) (interval.getTimeMillis() / 1000) % 60);
+        lastHour = (int) (interval.getTimeMillis() / (1000*60*60)) % 24;
+        lastMinute = (int) ((interval.getTimeMillis() / (1000*60)) % 60);
+        lastSecond = (int) (interval.getTimeMillis() / 1000) % 60;
+        mObservable.setHours( lastHour );
+        mObservable.setMinutes( lastMinute );
+        mObservable.setSeconds( lastSecond );
+
         timerTTS.speak(interval.getTimeComment(), TextToSpeech.QUEUE_FLUSH, null);
 
         timer = new CountDownTimer( interval.getTimeMillis(), 100 ) {
@@ -127,6 +161,26 @@ public class TalkingTimerApplication extends Application {
                 }
 
                 runningTimeList.pollFirst();
+
+                mBuilder.setContentTitle( mObservable.getComment()
+                        + getString(R.string.notification_just_finished));
+                mBuilder.setWhen( System.currentTimeMillis() );
+                if( runningTimeList.size() > 1 ){
+                    mBuilder.setContentText( runningTimeList.getFirst().getTimeComment() +
+                            getString(R.string.notification_is_starting) );
+                    mBuilder.setTicker( mObservable.getComment() +  getString(R.string.notification_just_finished));
+                }
+                else{
+                    mBuilder.setContentText(getString(R.string.notification_all_finished));
+                    mBuilder.setTicker(getString(R.string.notification_all_finished));
+                }
+
+                mNotificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                /* notificationID allows you to update the notification later on. */
+                mNotificationManager.notify(notificationID, mBuilder.build());
+
                 if( !runningTimeList.isEmpty() ){
                     startNext();
                 }

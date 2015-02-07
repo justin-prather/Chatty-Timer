@@ -210,7 +210,7 @@ public class NewTimer extends ActionBarActivity implements AdapterView.OnItemCli
                         if (selected.valueAt(i)) {
                             TimeObject selectedItem = (TimeObject) mTimeAdapter
                                     .getItem(selected.keyAt(i));
-                            mTimeAdapter.add(selectedItem);
+                            mTimeAdapter.add(new TimeObject(selectedItem));
                         }
                     }
                     mode.finish(); // Action picked, so close the CAB

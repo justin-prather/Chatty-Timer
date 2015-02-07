@@ -30,6 +30,9 @@
     <string name="button_resume_text">Resume</string>
     <string name="toast_no_intervals">No Intervals in List</string>
     <string name="banner_ad_unit_id">ca-app-pub-6215906062479465/7351420236</string>
+    <string name="notification_all_finished">All intervals finished!</string>
+    <string name="notification_just_finished">" just finished!"</string>
+    <string name="notification_is_starting">" is starting!"</string>
 
 
 </resources>
