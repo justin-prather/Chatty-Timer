@@ -9,8 +9,6 @@ import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.widget.TextSwitcher;
-import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -27,10 +25,6 @@ public class TalkingTimerApplication extends Application {
 
     public LinkedList<TimeObject> timeList;
     public TextToSpeech timerTTS;
-    private TextSwitcher RunTimerHours = null;
-    private TextSwitcher RunTimerMinutes = null;
-    private TextSwitcher RunTimerSeconds = null;
-    private TextView RunTimerComment = null;
     private LinkedList<TimeObject> runningTimeList;
     private CountDownTimer timer = null;
     private TimeObject interval;
@@ -271,14 +265,12 @@ public class TalkingTimerApplication extends Application {
     }
 
     public boolean isRunning(){
-        if (timer == null) return false;
-        else return true;
+        return timer != null;
     }
 
     public boolean hasCurrent(){
-        if ( runningTimeList == null ) return false;
+        return runningTimeList != null;
 
-        return true;
     }
 
     public ObservableTextObject getObservable() {

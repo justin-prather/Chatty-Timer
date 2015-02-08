@@ -57,8 +57,6 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
         hours.setFactory(new ViewSwitcher.ViewFactory() {
 
             public View makeView() {
-                // TODO Auto-generated method stub
-                // create new textView and set the properties like clolr, size etc
                 TextView myText = new TextView(RunTimerActivity.this);
                 myText.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                 myText.setTextSize(50);
@@ -70,8 +68,6 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
         minutes.setFactory(new ViewSwitcher.ViewFactory() {
 
             public View makeView() {
-                // TODO Auto-generated method stub
-                // create new textView and set the properties like clolr, size etc
                 TextView myText = new TextView(RunTimerActivity.this);
                 myText.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                 myText.setTextSize(50);
@@ -83,8 +79,6 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
         seconds.setFactory(new ViewSwitcher.ViewFactory() {
 
             public View makeView() {
-                // TODO Auto-generated method stub
-                // create new textView and set the properties like clolr, size etc
                 TextView myText = new TextView(RunTimerActivity.this);
                 myText.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                 myText.setTextSize(50);
@@ -242,8 +236,6 @@ public class RunTimerActivity extends ActionBarActivity implements Observer{
             if( mObservable.isDone() )
                 pauseButton.setText(getString(R.string.button_restart));
         }
-
-        else return;
     }
 
     private void updateTime(ObservableTextObject mObs) {

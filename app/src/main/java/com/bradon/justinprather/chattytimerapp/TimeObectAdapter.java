@@ -95,10 +95,6 @@ public class TimeObectAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public List<TimeObject> getLaptops() {
-        return mTimeObject;
-    }
-
     public void toggleSelection(int position) {
         selectView(position, !mSelectedItemsIds.get(position));
     }

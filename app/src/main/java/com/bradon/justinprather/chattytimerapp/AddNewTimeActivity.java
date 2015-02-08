@@ -121,8 +121,6 @@ public class AddNewTimeActivity extends ActionBarActivity {
                 return String.format("%02d", i);
             }
         });
-
-        return;
     }
 
     public void saveNewTime( View view ){
