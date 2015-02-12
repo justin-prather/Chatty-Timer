@@ -5,10 +5,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.CountDownTimer;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -37,6 +39,8 @@ public class TalkingTimerApplication extends Application {
     private NotificationManager mNotificationManager;
     private int notificationID = 74;
     private NotificationCompat.Builder  mBuilder;
+    private AudioManager mAudioManager;
+    private HashMap<String, String> mAudioParams;
 
     public enum TrackerName {
         APP_TRACKER, // Tracker used only in this app.
@@ -58,6 +62,13 @@ public class TalkingTimerApplication extends Application {
                 if ( status != TextToSpeech.ERROR ){
                     timerTTS.setLanguage(Locale.CANADA);
                 }
+
+                timerTTS.setOnUtteranceCompletedListener( new TextToSpeech.OnUtteranceCompletedListener() {
+                    @Override
+                    public void onUtteranceCompleted(String utteranceId) {
+                        Log.d("AUDIO",mAudioManager.abandonAudioFocus(null) + "");
+                    }
+                });
             }
         });
 
@@ -105,6 +116,11 @@ public class TalkingTimerApplication extends Application {
 
         mBuilder.setContentIntent(resultPendingIntent);
 
+        mAudioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+
+        mAudioParams = new HashMap<String, String>();
+        mAudioParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"stringId");
+
         lastHour = 0;
         lastMinute = 0;
         lastSecond = 0;
@@ -135,7 +151,10 @@ public class TalkingTimerApplication extends Application {
         mObservable.setMinutes( lastMinute );
         mObservable.setSeconds( lastSecond );
 
-        timerTTS.speak(interval.getTimeComment(), TextToSpeech.QUEUE_FLUSH, null);
+        mAudioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+
+        timerTTS.speak(interval.getTimeComment(), TextToSpeech.QUEUE_FLUSH, mAudioParams);
 
         timer = new CountDownTimer( interval.getTimeMillis(), 100 ) {
             @Override
