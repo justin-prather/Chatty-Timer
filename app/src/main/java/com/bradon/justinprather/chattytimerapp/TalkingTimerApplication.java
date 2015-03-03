@@ -101,7 +101,7 @@ public class TalkingTimerApplication extends Application {
         mBuilder.setVibrate( vibePattern );
 
          /* Creates an explicit intent for an Activity in your app */
-        Intent resultIntent = new Intent(this, RunTimerActivity.class);
+        Intent resultIntent = new Intent(this, NewTimer.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
         stackBuilder.addParentStack(RunTimerActivity.class);
